@@ -1,7 +1,6 @@
-package utilities;
+package org.example.utilities;
 
-public class Utility
-{
+public class Utility {
     public static void printSeparator() {
         System.out.println("\n");
         System.out.println("***** ***** ***** ***** *****");

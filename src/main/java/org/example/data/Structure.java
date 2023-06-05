@@ -1,11 +1,19 @@
-package modules;
+package org.example.data;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import org.example.data.modules.Elevator;
+import org.example.data.modules.Stage;
+import org.example.utilities.Utility;
 
 import java.util.ArrayList;
 import java.util.Random;
-import utilities.Utility;
 
-public class Structure
-{
+@Data
+@AllArgsConstructor
+public class Structure {
+    @Getter
     private static final int MAX_FLOOR;
 
     static {
@@ -18,22 +26,17 @@ public class Structure
     private int totalNumberOfPeople;
 
     public Structure() {
-        this.stageArrayList = new ArrayList<>(Structure.getMaxFloor());
+        this.stageArrayList = new ArrayList<>(Structure.getMAX_FLOOR());
         this.elevator = new Elevator(1);
-
-        for (int i = 1; i <= Structure.getMaxFloor(); i++) {
+        for (int i = 1; i <= Structure.MAX_FLOOR; i++) {
             Stage stage = new Stage(i);
             this.stageArrayList.add(stage);
         }
     }
 
-    public static int getMaxFloor() {
-        return MAX_FLOOR;
-    }
-
     private void printFullInfoAboutStage() {
         countingTotalNumberOfPeople();
-        System.out.println("Maximum floor:" + Structure.getMaxFloor() +
+        System.out.println("Maximum floor:" + Structure.getMAX_FLOOR() +
                 " Total Number Of People:" + totalNumberOfPeople);
         for (Stage stage : this.stageArrayList) {
             System.out.println(stage.toString());
@@ -42,12 +45,10 @@ public class Structure
 
     private void countingTotalNumberOfPeople() {
         int counter = 0;
-
         for (Stage stage : stageArrayList) {
             counter += stage.getNumberOfPeoplePerFloor();
         }
         counter += elevator.getNumberOfPeopleInElevator();
-
         totalNumberOfPeople = counter;
     }
 
@@ -61,7 +62,6 @@ public class Structure
         for (int x = 0; x < numberOfLiftIterations; x++) {
             Utility.printSeparator();
             System.out.println(elevator);
-
             countingTotalNumberOfPeople();
             elevator.exitPeopleFromElevator();
 
@@ -73,7 +73,6 @@ public class Structure
                     (stageArrayList.get(elevator.getCurrentFloor() - 1).getPeopleOnFloorList()));
 
             System.out.println(stageArrayList.get(elevator.getCurrentFloor() - 1).toString());
-
             elevator.Move(stageArrayList);
             System.out.println(elevator);
             Utility.printSeparator();
@@ -93,12 +92,10 @@ public class Structure
     private void addingNewPersonToRandomFloor(int pastAmount, int currentAmount) {
         for (int i = 0; i < (pastAmount - currentAmount); i++) {
             Random random = new Random();
-            int randomNumber = random.nextInt(0, Structure.getMaxFloor());
-
+            int randomNumber = random.nextInt(0, Structure.getMAX_FLOOR());
             while (stageArrayList.get(randomNumber).getNumberOfPeoplePerFloor() >= 10) {
-                randomNumber = random.nextInt(0, Structure.getMaxFloor());
+                randomNumber = random.nextInt(0, Structure.getMAX_FLOOR());
             }
-
             stageArrayList.get(randomNumber).addPersonInsteadOneWhoLeft();
         }
     }
